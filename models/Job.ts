@@ -14,6 +14,7 @@ export interface JobDocument extends Document {
   coverLetter: string
   skillMatch: number
   source: string
+  notes: string
   interviewDate: Date
   interviewRounds: Array<{ round: number; date: Date; notes: string }>
   createdAt: Date
@@ -52,7 +53,7 @@ const JobSchema = new Schema<JobDocument>(
   { timestamps: true }
 )
 
-JobSchema.pre('save', function (next) {
+JobSchema.pre('save', function (this: mongoose.HydratedDocument<JobDocument>, next) {
   if (this.isNew && !this.followUpDate && this.appliedDate) {
     const follow = new Date(this.appliedDate)
     follow.setDate(follow.getDate() + 7)
