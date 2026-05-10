@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import Image from 'next/image'
 import { AppShell } from '@/components/layout/AppShell'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -60,9 +61,11 @@ export default async function SettingsPage() {
           <CardContent className="relative pt-12 pb-8">
             <div className="absolute -top-12 left-6">
               {user.image ? (
-                <img
+                <Image
                   src={user.image}
                   alt={user.name ?? 'User'}
+                  width={96}
+                  height={96}
                   className="w-24 h-24 rounded-2xl border-4 border-white shadow-md bg-white object-cover"
                 />
               ) : (

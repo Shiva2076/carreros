@@ -175,7 +175,7 @@ export function JobCard({ job, index, onUpdated }: JobCardProps) {
                   <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 </div>
                 <p className="text-[10px] text-gray-400">
-                  Moving this card to "Interview" will sync this date to Google Calendar.
+                  Moving this card to &quot;Interview&quot; will sync this date to Google Calendar.
                 </p>
               </div>
             </div>
