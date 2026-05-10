@@ -18,9 +18,9 @@ export async function GET() {
     ]),
   ])
 
-  const invoiceMap = new Map(latestInvoices.map((i) => [i._id.toString(), i]))
+  const invoiceMap = new Map(latestInvoices.map((i: any) => [i._id.toString(), i]))
 
-  const enriched = clients.map((c) => ({
+  const enriched = (clients as any[]).map((c) => ({
     ...c,
     latestInvoice: invoiceMap.get(c._id.toString()) ?? null,
   }))
