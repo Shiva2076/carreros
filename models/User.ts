@@ -5,6 +5,7 @@ export interface UserDocument extends Document {
   email: string
   name: string
   googleRefreshToken: string
+  grantedScopes: string[]
   updatedAt: Date
 }
 
@@ -14,6 +15,7 @@ const UserSchema = new Schema<UserDocument>(
     email: { type: String, required: true },
     name: { type: String, default: '' },
     googleRefreshToken: { type: String, default: '' },
+    grantedScopes: { type: [String], default: [] },
   },
   { timestamps: true }
 )

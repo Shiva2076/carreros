@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, XCircle, User, Shield, Zap, Database, Mail, Calendar } from 'lucide-react'
+import { ConnectButton } from '@/components/settings/ConnectButton'
 
 export default async function SettingsPage() {
   const session = await auth()
@@ -14,24 +15,30 @@ export default async function SettingsPage() {
 
   const user = session.user
 
+  const grantedScopes = session.user.grantedScopes || []
+  const hasGmail = grantedScopes.includes('https://www.googleapis.com/auth/gmail.send')
+  const hasCalendar = grantedScopes.includes('https://www.googleapis.com/auth/calendar')
+
   const connections = [
     {
       name: 'Google OAuth',
-      status: true, // Connected by virtue of being logged in
-      description: 'Used for authentication and syncing services.',
+      status: true,
+      description: 'Used for authentication and profile sync.',
       icon: Shield,
     },
     {
       name: 'Gmail API',
-      status: !!process.env.GOOGLE_REFRESH_TOKEN && !!process.env.GMAIL_USER,
+      status: hasGmail,
       description: 'Allows sending AI-generated cover letters.',
       icon: Mail,
+      type: 'gmail' as const,
     },
     {
       name: 'Google Calendar',
-      status: !!process.env.GOOGLE_REFRESH_TOKEN,
+      status: hasCalendar,
       description: 'Syncs interview events to your calendar.',
       icon: Calendar,
+      type: 'calendar' as const,
     },
     {
       name: 'Groq AI',
@@ -113,6 +120,8 @@ export default async function SettingsPage() {
                       <CheckCircle2 className="w-3 h-3 mr-1" />
                       Connected
                     </Badge>
+                  ) : conn.type ? (
+                    <ConnectButton service={conn.type} />
                   ) : (
                     <Badge variant="destructive" className="bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-50">
                       <XCircle className="w-3 h-3 mr-1" />
